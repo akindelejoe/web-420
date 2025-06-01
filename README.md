@@ -54,4 +54,3 @@ Approach every week from top-to-bottom and do not move to the next assignment/ex
 ```bash
 git clone https://github.com/buwebdev/web-420.git
 cd web-420
-```
