@@ -1,20 +1,44 @@
 /**
- * Author: Professor Krasso
- * Date: 4/1/2024
- * File Name: recipes.js
- * Description: Recipe collection file for the cookbook application; used to store recipe data
+ * Title: Assignment 4.2 - JSON Web Service
+ * Author: Joe Akindele
+ * Date: 06/22/2025
+ * Description: JSON Web Service using Express
  */
 
-// Require statement
-const Collection = require("./collection");
+const express = require('express');
+const app = express();
+const port = 3000;
 
-// Array of recipe objects
-const recipes = new Collection([
-  { id: 1, name: "Pancakes", ingredients: ["flour", "milk", "eggs"] },
-  { id: 2, name: "Spaghetti", ingredients: ["pasta", "tomato sauce", "ground beef"] },
-  { id: 3, name: "Chicken Salad", ingredients: ["chicken", "lettuce", "tomatoes", "cucumber"] },
-  { id: 4, name: "Beef Stew", ingredients: ["beef", "potatoes", "carrots", "peas"] },
-  { id: 5, name: "Fish Tacos", ingredients: ["fish", "tortillas", "avocado", "salsa"] },
-]);
+const recipes = [
+  { id: 1, name: "Jollof Rice", ingredients: ["rice", "tomato", "pepper"] },
+  { id: 2, name: "Egusi Soup", ingredients: ["melon seeds", "vegetable", "meat"] },
+  { id: 3, name: "Ofada Sauce", ingredients: ["ata rodo", "palm oil", "assorted"] },
+];
 
-module.exports = recipes; // export the recipes collection
+// GET all recipes
+app.get("/api/recipes", (req, res) => {
+  res.json(recipes);
+});
+
+// GET recipe by ID
+app.get("/api/recipes/:id", (req, res) => {
+  const id = parseInt(req.params.id, 10);
+
+  if (isNaN(id)) {
+    const err = new Error("Input must be a number");
+    err.status = 400;
+    return res.status(400).json({ message: err.message });
+  }
+
+  const recipe = recipes.find(r => r.id === id);
+
+  if (!recipe) {
+    return res.status(404).json({ message: "Recipe not found" });
+  }
+
+  res.json(recipe);
+});
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
