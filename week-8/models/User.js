@@ -1,4 +1,4 @@
-const users = {}; // In-memory user store
+const users = {}; 
 
 function findUserByEmail(email) {
   return users[email];
